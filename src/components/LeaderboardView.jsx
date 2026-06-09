@@ -1,83 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getLeaderboard } from '../services/db';
 
 export default function LeaderboardView({ onGoHome }) {
-  const [board, setBoard] = useState([]);
+  const [board] = useState(() => getLeaderboard());
 
-  useEffect(() => {
-    setBoard(getLeaderboard());
-  }, []);
+  const medalColors = ['#ffd700', '#c0c0c0', '#cd7f32'];
 
   return (
-    <div style={{ maxWidth: '600px', margin: '40px auto', padding: '20px' }}>
-      {/* Title */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1 style={{ fontSize: '2.8rem', margin: '0 0 10px 0', fontWeight: '800' }} className="gradient-text">
-          Leaderboard Matrix
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
-          Top performing pilots in the network.
-        </p>
+    <div className="lb-page">
+
+      {/* ── Header ── */}
+      <div className="section-header">
+        <h1 className="page-title">Leaderboard Matrix</h1>
+        <p className="page-subtitle">Top performing pilots in the network.</p>
       </div>
 
-      {/* Leaderboard Table */}
-      <div className="glass-panel" style={{ padding: '20px', marginBottom: '30px', overflowX: 'auto' }}>
+      {/* ── Table ── */}
+      <div className="lb-panel">
         {board.length === 0 ? (
-          <p style={{ padding: '20px', color: 'var(--text-secondary)' }}>No telemetry available.</p>
+          <p className="lb-empty">No telemetry available.</p>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <table className="lb-table">
             <thead>
-              <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-                <th style={{ padding: '12px 8px' }}>RANK</th>
-                <th style={{ padding: '12px 8px' }}>CODENAME</th>
-                <th style={{ padding: '12px 8px', textAlign: 'center' }}>MISSIONS</th>
-                <th style={{ padding: '12px 8px', textAlign: 'center' }}>ACCURACY</th>
-                <th style={{ padding: '12px 8px', textAlign: 'right' }}>SCORE</th>
+              <tr>
+                <th className="lb-th">RANK</th>
+                <th className="lb-th">CODENAME</th>
+                <th className="lb-th lb-th--center">MISSIONS</th>
+                <th className="lb-th lb-th--center">ACCURACY</th>
+                <th className="lb-th lb-th--right">SCORE</th>
               </tr>
             </thead>
             <tbody>
               {board.map((user, idx) => {
-                const isTopThree = idx < 3;
-                const medalColors = ['#ffd700', '#c0c0c0', '#cd7f32'];
-                const rankDisplay = isTopThree ? (
-                  <span style={{
-                    display: 'inline-flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    background: medalColors[idx],
-                    color: '#080c16',
-                    fontWeight: '700',
-                    fontSize: '0.8rem'
-                  }}>
+                const isTop = idx < 3;
+                const rankCell = isTop ? (
+                  <span
+                    className="medal-badge"
+                    style={{ background: medalColors[idx], color: '#080c16' }}
+                  >
                     {idx + 1}
                   </span>
                 ) : (
-                  <span style={{ color: 'var(--text-secondary)', fontWeight: '500', paddingLeft: '8px' }}>
-                    {idx + 1}
-                  </span>
+                  <span className="rank-number">{idx + 1}</span>
                 );
 
                 return (
-                  <tr key={user.userId || idx} style={{
-                    borderBottom: '1px solid rgba(255,255,255,0.03)',
-                    background: idx === 0 ? 'rgba(0, 242, 254, 0.02)' : 'transparent'
-                  }}>
-                    <td style={{ padding: '16px 8px' }}>{rankDisplay}</td>
-                    <td style={{ padding: '16px 8px', fontWeight: '600', color: idx === 0 ? 'var(--accent-cyan)' : 'white' }}>
+                  <tr key={user.userId || idx} className={idx === 0 ? 'lb-row--gold' : ''}>
+                    <td className="lb-td">{rankCell}</td>
+                    <td className={`lb-td--name ${idx === 0 ? 'pilot-name' : ''}`}>
                       {user.displayName}
                     </td>
-                    <td style={{ padding: '16px 8px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-                      {user.quizzesCompleted}
-                    </td>
-                    <td style={{ padding: '16px 8px', textAlign: 'center', fontWeight: '500', color: 'var(--accent-blue)' }}>
-                      {user.averagePercentage}%
-                    </td>
-                    <td style={{ padding: '16px 8px', textAlign: 'right', fontWeight: '700', color: 'white' }}>
-                      {user.totalScore}
-                    </td>
+                    <td className="lb-td--center">{user.quizzesCompleted}</td>
+                    <td className="lb-td--acc">{user.averagePercentage}%</td>
+                    <td className="lb-td--score">{user.totalScore}</td>
                   </tr>
                 );
               })}
@@ -86,10 +61,7 @@ export default function LeaderboardView({ onGoHome }) {
         )}
       </div>
 
-      {/* Action */}
-      <button className="btn-primary" style={{ width: '100%' }} onClick={onGoHome}>
-        🏠 Return to Mission Hub
-      </button>
+      <button className="btn-primary" onClick={onGoHome}>🏠 Return to Mission Hub</button>
     </div>
   );
 }

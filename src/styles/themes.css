@@ -1,0 +1,31 @@
+/* ═══════════════════════════════════════════════════════
+   DARK THEME  (default)
+   ═══════════════════════════════════════════════════════ */
+.theme-dark {
+  --color-bg-primary:      #000000;
+  --color-bg-secondary:    #0a0a0a;
+  --color-text-primary:    #ffffff;
+  --color-text-secondary:  #94a3b8;
+  --color-accent-cyan:     #00f2fe;
+  --color-accent-blue:     #4facfe;
+  --color-accent-pink:     #f43f5e;
+  --color-accent-green:    #10b981;
+  --color-card-bg:         rgba(10, 10, 10, 0.82);
+  --color-card-border:     rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIGHT THEME
+   ═══════════════════════════════════════════════════════ */
+.theme-light {
+  --color-bg-primary:      #f0f4ff;
+  --color-bg-secondary:    #e2e8f8;
+  --color-text-primary:    #0f172a;
+  --color-text-secondary:  #475569;
+  --color-accent-cyan:     #0284c7;
+  --color-accent-blue:     #2563eb;
+  --color-accent-pink:     #db2777;
+  --color-accent-green:    #059669;
+  --color-card-bg:         rgba(255, 255, 255, 0.88);
+  --color-card-border:     rgba(15, 23, 42, 0.10);
+}

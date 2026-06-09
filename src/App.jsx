@@ -1,60 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import HomeView from './components/HomeView';
-import QuizPlayView from './components/QuizPlayView';
-import ResultView from './components/ResultView';
+import { useState, useEffect } from 'react';
+import HomeView      from './components/HomeView';
+import QuizPlayView  from './components/QuizPlayView';
+import ResultView    from './components/ResultView';
 import LeaderboardView from './components/LeaderboardView';
-import AdminView from './components/AdminView';
+import AdminView     from './components/AdminView';
+import AdminAuth     from './components/AdminAuth';
+import ThemeToggle   from './components/ThemeToggle';
 import { initializeLocalDB } from './services/db';
 
 export default function App() {
-  const [displayName, setDisplayName] = useState(() => {
-    return localStorage.getItem('quiz_pilot_name') || '';
-  });
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('quiz_theme') || 'dark';
-  });
-  const [currentView, setCurrentView] = useState('home'); // home | play | result | leaderboard | admin
+  const [displayName, setDisplayName]   = useState(() => localStorage.getItem('quiz_pilot_name') || '');
+  const [currentView, setCurrentView]   = useState('home');
   const [activeQuizId, setActiveQuizId] = useState(null);
-  const [lastAttempt, setLastAttempt] = useState(null);
+  const [lastAttempt, setLastAttempt]   = useState(null);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
-  // Initialize DB on load
-  useEffect(() => {
-    initializeLocalDB();
-  }, []);
+  useEffect(() => { initializeLocalDB(); }, []);
 
   useEffect(() => {
-    document.body.classList.toggle('theme-light', theme === 'light');
-    document.body.classList.toggle('theme-dark', theme === 'dark');
-    localStorage.setItem('quiz_theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((value) => (value === 'dark' ? 'light' : 'dark'));
-  };
-
-  // Sync pilot name
-  useEffect(() => {
-    if (displayName) {
-      localStorage.setItem('quiz_pilot_name', displayName);
-    }
+    if (displayName) localStorage.setItem('quiz_pilot_name', displayName);
   }, [displayName]);
 
-  const handleStartQuiz = (quizId) => {
-    setActiveQuizId(quizId);
-    setCurrentView('play');
-  };
-
-  const handleQuizFinished = (attemptDetails) => {
-    setLastAttempt(attemptDetails);
-    setCurrentView('result');
-  };
+  const handleStartQuiz    = (quizId) => { setActiveQuizId(quizId); setCurrentView('play'); };
+  const handleQuizFinished = (attempt) => { setLastAttempt(attempt); setCurrentView('result'); };
 
   return (
-    <div style={{ paddingBottom: '60px' }}>
-      <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 1000 }}>
-        <button className="btn-secondary" onClick={toggleTheme} style={{ fontSize: '0.85rem', padding: '10px 16px' }}>
-          Switch to {theme === 'dark' ? 'Light' : 'Dark'} Theme
-        </button>
+    <div className="pb-16">
+      {/* ── Fixed theme toggle ── */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
       </div>
 
       {currentView === 'home' && (
@@ -69,6 +43,7 @@ export default function App() {
 
       {currentView === 'play' && (
         <QuizPlayView
+          key={activeQuizId}
           displayName={displayName}
           quizId={activeQuizId}
           onFinished={handleQuizFinished}
@@ -85,15 +60,13 @@ export default function App() {
       )}
 
       {currentView === 'leaderboard' && (
-        <LeaderboardView
-          onGoHome={() => setCurrentView('home')}
-        />
+        <LeaderboardView onGoHome={() => setCurrentView('home')} />
       )}
 
       {currentView === 'admin' && (
-        <AdminView
-          onGoHome={() => setCurrentView('home')}
-        />
+        !isAdminAuthenticated
+          ? <AdminAuth onAuthenticated={() => setIsAdminAuthenticated(true)} />
+          : <AdminView onGoHome={() => { setCurrentView('home'); setIsAdminAuthenticated(false); }} />
       )}
     </div>
   );

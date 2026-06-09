@@ -1,0 +1,257 @@
+/* ═══════════════════════════════════════════════════════════════════
+   COMPONENTS.CSS  — all Tailwind @apply rules live here.
+   JSX files only reference these class names.  No utility classes
+   inside .jsx files.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Shared Layout ─────────────────────────────────────────────── */
+
+.page-wrapper        { @apply max-w-[650px] mx-auto px-5 pb-16 pt-8; }
+.page-wrapper--narrow{ @apply max-w-[500px] mx-auto px-5 pb-16 pt-16; }
+.page-wrapper--lb    { @apply max-w-[600px] mx-auto px-5 pb-16; }
+.page-wrapper--admin { @apply max-w-[900px] mx-auto my-6 px-5; }
+
+.section-header      { @apply text-center mb-10; }
+.page-title          { @apply text-[2.8rem] font-extrabold m-0 mb-2 gradient-text; }
+.page-title--xl      { @apply text-[3.2rem] font-extrabold m-0 mb-2 gradient-text; }
+.page-subtitle       { @apply text-text-secondary text-xl m-0; }
+
+.fixed-top-right     { @apply fixed top-4 right-4 z-50; }
+
+/* ─── HOME VIEW ──────────────────────────────────────────────────── */
+
+.home-page           { @apply max-w-[650px] mx-auto px-5 pb-16; }
+
+.pilot-panel         { @apply glass-panel p-6 mb-8; }
+.pilot-edit-form     { @apply flex gap-3 flex-col; }
+.pilot-edit-label    { @apply text-[0.95rem] text-text-secondary font-medium text-left; }
+.pilot-edit-row      { @apply flex gap-2; }
+.pilot-display       { @apply flex justify-between items-center; }
+.pilot-label         { @apply text-[0.85rem] text-text-secondary block text-left; }
+.pilot-name          { @apply text-[1.4rem] font-bold text-accent-cyan block; }
+
+.quiz-section-title  { @apply text-[1.5rem] mb-5 flex justify-between items-center; }
+.quiz-count-label    { @apply text-[0.9rem] text-text-secondary font-normal; }
+
+.quiz-grid           { @apply flex flex-col gap-4; }
+.quiz-card           { @apply glass-panel p-6 flex flex-col gap-3; }
+.quiz-card-header    { @apply flex justify-between items-start; }
+.quiz-card-title     { @apply m-0 text-[1.25rem] font-semibold text-text-primary; }
+.quiz-card-desc      { @apply text-text-secondary text-[0.95rem] m-0 leading-relaxed; }
+.quiz-card-meta      {
+  @apply flex gap-4 text-[0.85rem] text-text-secondary pt-3 mt-1;
+  border-top: 1px solid color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+}
+.quiz-card-actions   { @apply flex gap-3 mt-2; }
+.quiz-launch-btn     { @apply btn-primary glow-active mt-2.5; flex: 1; }
+.quiz-delete-btn     { @apply btn-secondary; min-width: 140px; }
+
+/* Difficulty badge */
+.difficulty-badge        { @apply py-1 px-2.5 rounded-full text-[0.75rem] font-bold uppercase; }
+.difficulty-badge--easy  {
+  background: rgba(16,185,129,0.15);
+  color: #10b981;
+  border: 1px solid rgba(16,185,129,0.3);
+}
+.difficulty-badge--medium{
+  background: rgba(59,130,246,0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59,130,246,0.3);
+}
+.difficulty-badge--hard  {
+  background: rgba(244,63,94,0.15);
+  color: #f43f5e;
+  border: 1px solid rgba(244,63,94,0.3);
+}
+
+.home-nav            { @apply flex justify-center gap-4 mt-10; }
+
+/* ─── QUIZ PLAY VIEW ─────────────────────────────────────────────── */
+
+.quiz-play-page      { @apply max-w-[600px] mx-auto px-5 pb-16; }
+.quiz-play-header    { @apply flex justify-between items-center mb-5; }
+.quiz-play-counter   { @apply text-base font-semibold text-accent-blue; }
+.quiz-timer          { @apply flex items-center gap-1 text-base font-bold; }
+.quiz-timer--urgent  { color: var(--color-accent-pink); }
+.quiz-timer--safe    { color: var(--color-accent-cyan); }
+.quiz-timer--free    { @apply text-[0.9rem] text-text-secondary; }
+
+.question-panel      { @apply glass-panel p-8 text-left mb-6; }
+.question-text       { @apply text-[1.4rem] leading-relaxed font-medium m-0 mb-6 text-text-primary; }
+.options-list        { @apply flex flex-col; }
+
+.quiz-play-footer    { @apply flex gap-3; }
+.quiz-submit-btn     { @apply btn-primary glow-active text-base; flex: 1; padding-top: 1rem; padding-bottom: 1rem; }
+.quiz-next-btn       { @apply btn-primary glow-active text-base; flex: 1; padding-top: 1rem; padding-bottom: 1rem; }
+
+.quiz-loading        { @apply py-10 text-center; }
+.quiz-loading-text   { @apply text-text-secondary; }
+
+/* ─── RESULT VIEW ────────────────────────────────────────────────── */
+
+.result-page         { @apply max-w-[500px] mx-auto px-5 pt-16 pb-16; }
+.result-header       { @apply text-center mb-10; }
+.result-status-label { @apply text-[0.85rem] text-text-secondary block uppercase tracking-widest mb-2; }
+.result-title        { @apply text-[2.5rem] font-extrabold m-0 mb-2; }
+.result-subtitle     { @apply text-text-secondary text-[1.05rem] m-0 leading-relaxed; }
+
+.result-panel        { @apply glass-panel p-8 mb-8 flex flex-col gap-5; }
+.result-panel-title  {
+  @apply m-0 text-[1.3rem] pb-3 text-left text-text-primary;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text-primary) 6%, transparent);
+}
+.result-stats        { @apply grid grid-cols-2 gap-5 text-left; }
+.result-stat-label   { @apply text-[0.8rem] text-text-secondary block; }
+.result-val--cyan    { @apply text-[1.8rem] font-bold text-accent-cyan block; }
+.result-val--blue    { @apply text-[1.8rem] font-bold text-accent-blue block; }
+.result-val--plain   { @apply text-[1.8rem] font-bold text-text-primary block; }
+.result-actions      { @apply flex flex-col gap-3; }
+
+/* ─── LEADERBOARD VIEW ───────────────────────────────────────────── */
+
+.lb-page             { @apply max-w-[600px] mx-auto px-5 pb-16; }
+.lb-panel            { @apply glass-panel p-5 mb-8 overflow-x-auto; }
+.lb-empty            { @apply p-5 text-text-secondary; }
+.lb-table            { @apply w-full border-collapse text-left; }
+.lb-th               { @apply py-3 px-2 text-text-secondary text-[0.85rem] font-medium; }
+.lb-th--center       { @apply text-center; }
+.lb-th--right        { @apply text-right; }
+.lb-td               { @apply py-4 px-2; }
+.lb-td--name         { @apply py-4 px-2 font-semibold; }
+.lb-td--center       { @apply py-4 px-2 text-center text-text-secondary; }
+.lb-td--acc          { @apply py-4 px-2 text-center font-medium text-accent-blue; }
+.lb-td--score        { @apply py-4 px-2 text-right font-bold text-text-primary; }
+.lb-row--gold        { background: rgba(0,242,254,0.04); }
+.medal-badge         { @apply inline-flex justify-center items-center w-6 h-6 rounded-full font-bold text-[0.8rem]; }
+.rank-number         { @apply text-text-secondary font-medium pl-2; }
+
+/* ─── ADMIN AUTH ─────────────────────────────────────────────────── */
+
+.auth-page           { @apply max-w-[900px] mx-auto my-6 px-5; }
+.auth-grid           { @apply grid grid-cols-1 md:grid-cols-2 gap-5; }
+.auth-panel          { @apply glass-panel p-5; }
+.auth-panel-title    { @apply mt-0 text-text-primary; }
+.auth-form           { @apply flex flex-col gap-3; }
+.auth-label          { @apply text-text-secondary text-sm; }
+.auth-actions        { @apply flex gap-3; }
+.form-error          { @apply mt-2 text-accent-pink text-sm; }
+.auth-note           { @apply text-text-secondary text-sm; }
+
+/* ─── ADMIN VIEW ─────────────────────────────────────────────────── */
+
+.admin-page          { @apply max-w-[650px] mx-auto px-5 pt-10 pb-16; }
+.admin-panel         { @apply glass-panel p-7 mb-8 text-left; }
+.admin-panel--tall   { @apply glass-panel p-9 mb-8 text-left; min-height: 320px; }
+.admin-panel-title   { @apply m-0 mb-5 text-[1.3rem] text-text-primary; }
+.admin-panel-header  { @apply flex justify-between items-center mb-5; }
+
+/* Status Messages */
+.status-msg          { @apply p-4 rounded-[10px] mb-5 text-sm font-medium; }
+.status-msg--success { background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.3); }
+.status-msg--error   { background:rgba(244,63,94,0.15);  color:#f43f5e; border:1px solid rgba(244,63,94,0.3); }
+.status-msg--info    { background:rgba(59,130,246,0.15);  color:#3b82f6; border:1px solid rgba(59,130,246,0.3); }
+
+/* Admin Form */
+.admin-form          { @apply flex flex-col gap-4; }
+.admin-field         { @apply flex flex-col gap-2; }
+.admin-field-label   { @apply text-[0.85rem] text-text-secondary; }
+.admin-two-col       { @apply grid grid-cols-1 md:grid-cols-2 gap-4; }
+.admin-form-actions  { @apply flex gap-3 flex-wrap mb-5; }
+
+/* Random question preview */
+.preview-divider     {
+  @apply pt-5;
+  border-top: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+}
+.preview-meta-row    { @apply flex justify-between items-center mb-4; }
+.preview-source      { @apply text-[0.9rem] text-text-secondary; }
+.preview-category    { @apply text-[0.9rem] text-accent-blue font-semibold; }
+.preview-q-text      { @apply m-0 mb-4 text-[1.25rem] font-semibold text-text-primary; }
+.preview-options     { @apply grid gap-3; }
+.preview-option      {
+  @apply p-4 rounded-[14px] text-text-primary;
+  background: color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+}
+
+/* Registered Databases list */
+.db-section          { @apply text-left mb-10; }
+.db-section-title    { @apply text-[1.25rem] mb-4 text-text-primary; }
+.db-list             { @apply glass-panel p-0; }
+.db-item-header      { @apply flex justify-between items-center p-3 cursor-pointer; }
+.db-item-info        { @apply flex-1; }
+.db-item-name        { @apply font-semibold text-text-primary block mb-1; }
+.db-item-meta        { @apply text-[0.8rem] text-text-secondary; }
+.db-item-controls    { @apply flex items-center gap-2 ml-3; }
+.db-item-body        {
+  @apply p-3;
+  border-top: 1px solid color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+  background: color-mix(in srgb, var(--color-text-primary) 2%, transparent);
+}
+.db-questions-scroll { @apply max-h-[300px] overflow-y-auto mb-3; }
+.db-question-row     { @apply p-2 rounded mb-2 flex justify-between items-start gap-2; }
+.db-question-info    { @apply flex-1 min-w-0; }
+.db-question-num     { @apply text-[0.75rem] text-text-secondary; }
+.db-question-text    { @apply text-[0.85rem] text-text-primary break-words; margin: 2px 0 0; }
+.db-difficulty-tag   {
+  @apply text-[0.75rem] font-semibold py-1 px-2.5 rounded-[10px] text-text-secondary whitespace-nowrap;
+  background: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+}
+
+/* Danger / utility buttons */
+.btn-danger {
+  @apply py-2 px-2 rounded-[8px] text-[0.8rem] cursor-pointer;
+  background: rgba(244,63,94,0.25);
+  border: 1px solid rgba(244,63,94,0.5);
+  color: #f43f5e;
+  font-family: var(--font-sans);
+  transition: all 0.2s ease;
+}
+.btn-danger:hover { background: rgba(244,63,94,0.4); }
+
+.btn-danger--sm   { @apply py-1 px-2 rounded text-[0.75rem] cursor-pointer flex-shrink-0 whitespace-nowrap; }
+
+.btn-add-option {
+  @apply py-2 px-3 rounded text-[0.9rem] cursor-pointer;
+  background: rgba(59,130,246,0.2);
+  border: 1px solid rgba(59,130,246,0.5);
+  color: #3b82f6;
+  font-family: var(--font-sans);
+}
+.btn-remove-option {
+  @apply py-2 px-3 rounded text-[0.85rem] cursor-pointer flex-shrink-0;
+  background: rgba(244,63,94,0.2);
+  border: 1px solid rgba(244,63,94,0.5);
+  color: #f43f5e;
+  font-family: var(--font-sans);
+}
+
+/* Time input */
+.time-input {
+  @apply w-[70px] p-1 rounded-[8px] text-text-primary bg-transparent text-sm;
+  border: 1px solid color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+}
+
+/* Option row (custom question form) */
+.option-row          { @apply flex gap-3 items-center; }
+.option-radio        { @apply cursor-pointer flex-shrink-0; width:18px; height:18px; }
+
+/* Info box */
+.info-box            {
+  @apply p-3 rounded-md text-sm text-accent-blue;
+  background: rgba(59,130,246,0.10);
+  border: 1px solid rgba(59,130,246,0.30);
+}
+.info-box pre        {
+  @apply m-2 mt-0 text-[0.75rem] overflow-auto p-2 rounded;
+  background: rgba(0,0,0,0.20);
+}
+.info-box-csv        { @apply text-[0.75rem] mt-2 font-mono; }
+
+.add-more-hint {
+  @apply p-2 rounded text-[0.85rem] text-accent-blue;
+  background: rgba(59,130,246,0.15);
+  border: 1px solid rgba(59,130,246,0.30);
+}
+
+.helper-text         { @apply text-text-secondary text-[0.75rem]; }
+.uploading-text      { @apply text-center text-text-secondary text-[0.9rem]; }

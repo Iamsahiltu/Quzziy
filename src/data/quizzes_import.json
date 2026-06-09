@@ -6,7 +6,7 @@
     "category": "Entertainment: Film",
     "difficulty": "medium",
     "timePerQuestion": 30,
-    "questionCount": 10,
+    "questionCount": 15,
     "isPublished": true,
     "createdBy": "admin_system",
     "createdAt": 1780990422819,
@@ -134,6 +134,66 @@
       ],
       "points": 1,
       "order": 10
+    },
+    {
+      "id": "c2041a1e-7c5e-4d2b-b8e0-5f9a2c8d4e1a",
+      "questionText": "Which actor played Batman in \"The Dark Knight\" trilogy?",
+      "options": [
+        "Christian Bale",
+        "Ben Affleck",
+        "George Clooney",
+        "Michael Keaton"
+      ],
+      "points": 1,
+      "order": 11
+    },
+    {
+      "id": "d7152b2f-8d6f-4e3c-c9f1-6g0b3d9e5f2b",
+      "questionText": "Who directed the movie \"Inception\"?",
+      "options": [
+        "Christopher Nolan",
+        "Steven Spielberg",
+        "James Cameron",
+        "Denis Villeneuve"
+      ],
+      "points": 1,
+      "order": 12
+    },
+    {
+      "id": "e8263c3g-9e7g-5f4d-d0g2-7h1c4e0f6g3c",
+      "questionText": "In \"Titanic\", what year does the ship sink?",
+      "options": [
+        "1912",
+        "1915",
+        "1920",
+        "1898"
+      ],
+      "points": 1,
+      "order": 13
+    },
+    {
+      "id": "f9374d4h-0f8h-6g5e-e1h3-8i2d5f1g7h4d",
+      "questionText": "Which movie won Best Picture at the 2020 Oscars?",
+      "options": [
+        "Parasite",
+        "Once Upon a Time in Hollywood",
+        "1917",
+        "Joker"
+      ],
+      "points": 1,
+      "order": 14
+    },
+    {
+      "id": "g0485e5i-1g9i-7h6f-f2i4-9j3e6g2h8i5e",
+      "questionText": "Who is the director of \"The Matrix\" films?",
+      "options": [
+        "The Wachowskis",
+        "James Cameron",
+        "Ridley Scott",
+        "Michael Bay"
+      ],
+      "points": 1,
+      "order": 15
     }
   ],
   "answers": [
@@ -186,6 +246,31 @@
       "questionId": "b1930603-f4e0-4db8-969c-22d9d7da47c7",
       "correctAnswerIndex": 3,
       "explanation": "The correct answer is: Gold"
+    },
+    {
+      "questionId": "c2041a1e-7c5e-4d2b-b8e0-5f9a2c8d4e1a",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: Christian Bale"
+    },
+    {
+      "questionId": "d7152b2f-8d6f-4e3c-c9f1-6g0b3d9e5f2b",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: Christopher Nolan"
+    },
+    {
+      "questionId": "e8263c3g-9e7g-5f4d-d0g2-7h1c4e0f6g3c",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: 1912"
+    },
+    {
+      "questionId": "f9374d4h-0f8h-6g5e-e1h3-8i2d5f1g7h4d",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: Parasite"
+    },
+    {
+      "questionId": "g0485e5i-1g9i-7h6f-f2i4-9j3e6g2h8i5e",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: The Wachowskis"
     }
   ]
 }

@@ -6,6 +6,8 @@ const QUESTIONS_KEY = 'quiz_contest_questions';
 const ANSWERS_KEY = 'quiz_contest_answers';
 const LEADERBOARD_KEY = 'quiz_contest_leaderboard';
 const ATTEMPTS_KEY = 'quiz_contest_attempts';
+const USERS_KEY = 'quiz_contest_users';
+const ADMIN_KEY = 'quiz_contest_admin';
 
 // Initialize default data if local storage is empty
 export function initializeLocalDB() {
@@ -94,7 +96,93 @@ export function initializeLocalDB() {
   if (!localStorage.getItem(ATTEMPTS_KEY)) {
     localStorage.setItem(ATTEMPTS_KEY, JSON.stringify([]));
   }
+  // Initialize users storage if missing
+  if (!localStorage.getItem(USERS_KEY)) {
+    localStorage.setItem(USERS_KEY, JSON.stringify({}));
+  }
+  if (!localStorage.getItem(ADMIN_KEY)) {
+    localStorage.setItem(ADMIN_KEY, JSON.stringify({ adminId: 'admin', password: '12345', createdAt: Date.now() }));
+  }
 }
+
+// Simple user management (admin-managed)
+export function getUsers() {
+  initializeLocalDB();
+  return JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
+}
+
+export function addUser(userId, password, displayName) {
+  initializeLocalDB();
+  const users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
+  if (users[userId]) {
+    throw new Error('User already exists');
+  }
+  users[userId] = { userId, password, displayName: displayName || userId, createdAt: Date.now() };
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  return users[userId];
+}
+
+export function deleteUser(userId) {
+  initializeLocalDB();
+  const users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
+  if (!users[userId]) throw new Error('User not found');
+  delete users[userId];
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  return { success: true };
+}
+
+export function verifyUserCredentials(userId, password) {
+  initializeLocalDB();
+  const users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
+  const u = users[userId];
+  return !!(u && u.password === password);
+}
+
+// Admin account helpers
+export function getAdminAccount() {
+  initializeLocalDB();
+  return JSON.parse(localStorage.getItem(ADMIN_KEY) || 'null');
+}
+
+export function createAdminAccount(adminId, password) {
+  initializeLocalDB();
+  if (!adminId || !password) throw new Error('Invalid admin credentials');
+  const existing = localStorage.getItem(ADMIN_KEY);
+  if (existing) throw new Error('Admin account already exists');
+  const admin = { adminId, password, createdAt: Date.now() };
+  localStorage.setItem(ADMIN_KEY, JSON.stringify(admin));
+  return admin;
+}
+
+export function verifyAdminCredentials(adminId, password) {
+  initializeLocalDB();
+  const admin = JSON.parse(localStorage.getItem(ADMIN_KEY) || 'null');
+  if (!admin) return false;
+
+  // Normalize inputs
+  const normId = String(adminId ?? '').trim();
+  const normPass = String(password ?? '');
+
+  // Backward compatible support for older payload shapes
+  // { adminId, password }
+  if (typeof admin === 'object' && admin.adminId !== undefined && admin.password !== undefined) {
+    return String(admin.adminId).trim() === normId && admin.password === normPass;
+  }
+
+  // { id, pass }
+  if (typeof admin === 'object' && admin.id !== undefined && admin.pass !== undefined) {
+    return String(admin.id).trim() === normId && admin.pass === normPass;
+  }
+
+  // { adminId, pass }
+  if (typeof admin === 'object' && admin.adminId !== undefined && admin.pass !== undefined) {
+    return String(admin.adminId).trim() === normId && admin.pass === normPass;
+  }
+
+  // Stored as a string (adminId only) is never sufficient for password verification
+  return false;
+}
+
 
 // Get all quizzes
 export function getQuizzes() {
@@ -239,4 +327,173 @@ export function addCustomQuiz(quiz, questions, answers) {
   localStorage.setItem(ANSWERS_KEY, JSON.stringify(answersMap));
 
   return quiz;
+}
+
+// Add a single custom question to an existing quiz
+export function addCustomQuestionToQuiz(quizId, questionText, options, correctAnswerIndex) {
+  initializeLocalDB();
+  
+  const quizzes = JSON.parse(localStorage.getItem(QUIZZES_KEY) || '{}');
+  const questionsMap = JSON.parse(localStorage.getItem(QUESTIONS_KEY) || '{}');
+  const answersMap = JSON.parse(localStorage.getItem(ANSWERS_KEY) || '{}');
+
+  if (!quizzes[quizId]) {
+    throw new Error('Quiz not found');
+  }
+
+  // Create new question
+  const questionId = `custom-q-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  const questions = questionsMap[quizId] || [];
+  const nextOrder = questions.length + 1;
+
+  const newQuestion = {
+    id: questionId,
+    questionText: questionText,
+    options: options,
+    points: 1,
+    order: nextOrder
+  };
+
+  // Add question to quiz
+  questions.push(newQuestion);
+  questionsMap[quizId] = questions;
+
+  // Add answer
+  if (!answersMap[quizId]) {
+    answersMap[quizId] = {};
+  }
+  answersMap[quizId][questionId] = correctAnswerIndex;
+
+  // Update quiz metadata (increment question count and update timestamp)
+  quizzes[quizId].questionCount = questions.length;
+  quizzes[quizId].updatedAt = Date.now();
+
+  localStorage.setItem(QUIZZES_KEY, JSON.stringify(quizzes));
+  localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questionsMap));
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(answersMap));
+
+  return { success: true, questionId, quiz: quizzes[quizId] };
+}
+
+// Create a new empty quiz for custom questions
+export function createCustomQuiz(title, description, category = "Custom", difficulty = "medium") {
+  initializeLocalDB();
+  
+  const quizzes = JSON.parse(localStorage.getItem(QUIZZES_KEY) || '{}');
+  const quizId = `custom-quiz-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+  const newQuiz = {
+    id: quizId,
+    title,
+    description,
+    category,
+    difficulty,
+    timePerQuestion: 25,
+    questionCount: 0,
+    isPublished: true,
+    createdBy: "web_admin",
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    totalAttempts: 0,
+    averageScore: 0
+  };
+
+  quizzes[quizId] = newQuiz;
+  localStorage.setItem(QUIZZES_KEY, JSON.stringify(quizzes));
+
+  // Initialize empty questions and answers maps
+  const questionsMap = JSON.parse(localStorage.getItem(QUESTIONS_KEY) || '{}');
+  const answersMap = JSON.parse(localStorage.getItem(ANSWERS_KEY) || '{}');
+  questionsMap[quizId] = [];
+  answersMap[quizId] = {};
+  
+  localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questionsMap));
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(answersMap));
+
+  return newQuiz;
+}
+
+// Delete a question from a quiz (only allowed if quiz has 199+ questions)
+export function deleteQuestionFromQuiz(quizId, questionId) {
+  initializeLocalDB();
+  
+  const quizzes = JSON.parse(localStorage.getItem(QUIZZES_KEY) || '{}');
+  const questionsMap = JSON.parse(localStorage.getItem(QUESTIONS_KEY) || '{}');
+  const answersMap = JSON.parse(localStorage.getItem(ANSWERS_KEY) || '{}');
+
+  if (!quizzes[quizId]) {
+    throw new Error('Quiz not found');
+  }
+
+  const questions = questionsMap[quizId] || [];
+  
+  // Check if quiz has minimum 199 questions required for deletion
+  if (questions.length < 199) {
+    throw new Error(`Cannot delete questions. Quiz must have at least 199 questions to delete. Current: ${questions.length} questions`);
+  }
+
+  // Find and remove the question
+  const questionIndex = questions.findIndex(q => q.id === questionId);
+  if (questionIndex === -1) {
+    throw new Error('Question not found');
+  }
+
+  // Remove question
+  questions.splice(questionIndex, 1);
+  
+  // Remove answer
+  if (answersMap[quizId] && answersMap[quizId][questionId]) {
+    delete answersMap[quizId][questionId];
+  }
+
+  // Reorder questions
+  questions.forEach((q, idx) => {
+    q.order = idx + 1;
+  });
+
+  // Update storage
+  questionsMap[quizId] = questions;
+  quizzes[quizId].questionCount = questions.length;
+  quizzes[quizId].updatedAt = Date.now();
+
+  localStorage.setItem(QUIZZES_KEY, JSON.stringify(quizzes));
+  localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questionsMap));
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(answersMap));
+
+  return { success: true, quiz: quizzes[quizId] };
+}
+
+// Delete an entire quiz and its associated questions/answers
+export function deleteQuiz(quizId) {
+  initializeLocalDB();
+  const quizzes = JSON.parse(localStorage.getItem(QUIZZES_KEY) || '{}');
+  const questionsMap = JSON.parse(localStorage.getItem(QUESTIONS_KEY) || '{}');
+  const answersMap = JSON.parse(localStorage.getItem(ANSWERS_KEY) || '{}');
+
+  if (!quizzes[quizId]) {
+    throw new Error('Quiz not found');
+  }
+
+  delete quizzes[quizId];
+  if (questionsMap[quizId]) delete questionsMap[quizId];
+  if (answersMap[quizId]) delete answersMap[quizId];
+
+  localStorage.setItem(QUIZZES_KEY, JSON.stringify(quizzes));
+  localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questionsMap));
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(answersMap));
+
+  return { success: true };
+}
+
+// Update quiz metadata such as time per question
+export function updateQuizTime(quizId, seconds) {
+  initializeLocalDB();
+  const quizzes = JSON.parse(localStorage.getItem(QUIZZES_KEY) || '{}');
+  if (!quizzes[quizId]) {
+    throw new Error('Quiz not found');
+  }
+  quizzes[quizId].timePerQuestion = Number(seconds) || 0;
+  quizzes[quizId].updatedAt = Date.now();
+  localStorage.setItem(QUIZZES_KEY, JSON.stringify(quizzes));
+  return { success: true, quiz: quizzes[quizId] };
 }
