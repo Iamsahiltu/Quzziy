@@ -1,0 +1,191 @@
+{
+  "quiz": {
+    "id": "3b882842-8dd1-435f-9ea0-4002b812836d",
+    "title": "Entertainment: Film - Medium Quiz",
+    "description": "Automatically generated quiz from Open Trivia Database.",
+    "category": "Entertainment: Film",
+    "difficulty": "medium",
+    "timePerQuestion": 30,
+    "questionCount": 10,
+    "isPublished": true,
+    "createdBy": "admin_system",
+    "createdAt": 1780990422819,
+    "updatedAt": 1780990422819,
+    "totalAttempts": 0,
+    "averageScore": 0
+  },
+  "questions": [
+    {
+      "id": "cd266b76-4995-4f8f-88d5-191bebb22e41",
+      "questionText": "In the 1994 movie \"Speed\", what is the minimum speed the bus must go to prevent to bomb from exploding?",
+      "options": [
+        "60 mph",
+        "40 mph",
+        "70 mph",
+        "50 mph"
+      ],
+      "points": 1,
+      "order": 1
+    },
+    {
+      "id": "bfa65cc2-62b6-4abf-92be-0c90f433e98c",
+      "questionText": "Ed Koch, the Mayor of New York in 1984, played himself in which Muppets movie?",
+      "options": [
+        "The Muppet Movie",
+        "The Muppet Christmas Carol",
+        "The Muppets Take Manhattan",
+        "The Great Muppet Caper"
+      ],
+      "points": 1,
+      "order": 2
+    },
+    {
+      "id": "6c0117bb-720f-401e-a68d-c042157d2754",
+      "questionText": "What country saw a world record 315 million voters turn out for elections on May 20, 1991?",
+      "options": [
+        "India",
+        "Poland",
+        "United States of America",
+        "Soviet Union"
+      ],
+      "points": 1,
+      "order": 3
+    },
+    {
+      "id": "38691d80-6ea8-4208-a14b-e8a677584ac4",
+      "questionText": "Which town is the setting for the Disney movie The Love Bug (1968)?",
+      "options": [
+        "Los Angeles",
+        "San Jose",
+        "Sacramento",
+        "San Francisco"
+      ],
+      "points": 1,
+      "order": 4
+    },
+    {
+      "id": "69495616-ed79-4f5b-8558-139a53f19ed4",
+      "questionText": "Who is the lead singer of The Lumineers?",
+      "options": [
+        "Wesley Schultz",
+        "Neyla Pekarek",
+        "Jeremiah Fraites",
+        "Jay Van Dyke"
+      ],
+      "points": 1,
+      "order": 5
+    },
+    {
+      "id": "a14cc94e-5484-49ea-958b-dff21570adda",
+      "questionText": "Which of the following is NOT a song in BROCKHAMPTON's SATURATION album series?",
+      "options": [
+        "LAMB",
+        "SWAMP",
+        "BUMP",
+        "HOTTIE"
+      ],
+      "points": 1,
+      "order": 6
+    },
+    {
+      "id": "45784e3d-e2db-4835-b2cc-e4374e9c5e03",
+      "questionText": "Which of the following characters is NOT playable in \"Resident Evil 6\"?",
+      "options": [
+        "Sherry Birkin",
+        "Helena Harper",
+        "Jill Valentine",
+        "Chris Redfield"
+      ],
+      "points": 1,
+      "order": 7
+    },
+    {
+      "id": "16d41fd3-6b37-4c53-9026-0d52920dc9b8",
+      "questionText": "Who is the main character in One Piece?",
+      "options": [
+        "Luffy",
+        "Smoker",
+        "Zoro",
+        "Shanks"
+      ],
+      "points": 1,
+      "order": 8
+    },
+    {
+      "id": "ab7caafa-a90b-49b7-aa36-6d03224b04b3",
+      "questionText": "In what Half-Life expansion can you find Gordon's picture in an \"Employee of the Month\" picture frame?",
+      "options": [
+        "Half-Life: Blue Shift",
+        "Half-Life: Opposing Force",
+        "Half-Life: Decay",
+        "They Hunger"
+      ],
+      "points": 1,
+      "order": 9
+    },
+    {
+      "id": "b1930603-f4e0-4db8-969c-22d9d7da47c7",
+      "questionText": "Au on the Periodic Table refers to which element?",
+      "options": [
+        "Silver",
+        "Oxygen",
+        "Nickel",
+        "Gold"
+      ],
+      "points": 1,
+      "order": 10
+    }
+  ],
+  "answers": [
+    {
+      "questionId": "cd266b76-4995-4f8f-88d5-191bebb22e41",
+      "correctAnswerIndex": 3,
+      "explanation": "The correct answer is: 50 mph"
+    },
+    {
+      "questionId": "bfa65cc2-62b6-4abf-92be-0c90f433e98c",
+      "correctAnswerIndex": 2,
+      "explanation": "The correct answer is: The Muppets Take Manhattan"
+    },
+    {
+      "questionId": "6c0117bb-720f-401e-a68d-c042157d2754",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: India"
+    },
+    {
+      "questionId": "38691d80-6ea8-4208-a14b-e8a677584ac4",
+      "correctAnswerIndex": 3,
+      "explanation": "The correct answer is: San Francisco"
+    },
+    {
+      "questionId": "69495616-ed79-4f5b-8558-139a53f19ed4",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: Wesley Schultz"
+    },
+    {
+      "questionId": "a14cc94e-5484-49ea-958b-dff21570adda",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: LAMB"
+    },
+    {
+      "questionId": "45784e3d-e2db-4835-b2cc-e4374e9c5e03",
+      "correctAnswerIndex": 2,
+      "explanation": "The correct answer is: Jill Valentine"
+    },
+    {
+      "questionId": "16d41fd3-6b37-4c53-9026-0d52920dc9b8",
+      "correctAnswerIndex": 0,
+      "explanation": "The correct answer is: Luffy"
+    },
+    {
+      "questionId": "ab7caafa-a90b-49b7-aa36-6d03224b04b3",
+      "correctAnswerIndex": 1,
+      "explanation": "The correct answer is: Half-Life: Opposing Force"
+    },
+    {
+      "questionId": "b1930603-f4e0-4db8-969c-22d9d7da47c7",
+      "correctAnswerIndex": 3,
+      "explanation": "The correct answer is: Gold"
+    }
+  ]
+}

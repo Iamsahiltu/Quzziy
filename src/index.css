@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import './theme.css';
+
+:root {
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+}
+
+/* 1. MOVING BACKGROUND EFFECT */
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  background: radial-gradient(circle at 50% 0%, var(--bg-secondary) 0%, var(--bg-primary) 50%, var(--bg-primary) 100%);
+  background-size: 200% 200%;
+  animation: moveAmbientBg 12s ease-in-out infinite;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 2. HOVER BORDER BEAM EFFECT */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 242, 254, 0.1),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: none;
+}
+
+.glass-panel:hover::before {
+  animation: borderBeam 1.5s ease-in-out infinite;
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 242, 254, 0.3);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 242, 254, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Typography Utilities & 3. MOVING GRADIENT TEXT */
+.gradient-text {
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue), var(--accent-cyan));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: moveGradientText 4s linear infinite;
+}
+
+.gradient-text-pink {
+  background: linear-gradient(90deg, #ff007f, #ff5e62, #ff007f);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: moveGradientText 4s linear infinite;
+}
+
+/* Interactive Elements */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+  border: none;
+  color: #040814;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Option Buttons for Quizzes & 4. MOVING GLINT EFFECT */
+.option-button {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  padding: 16px 24px;
+  background: rgba(30, 41, 59, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option-button:hover {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(0, 242, 254, 0.3);
+  padding-left: 28px;
+}
+
+/* Sleek shimmer movement when user hovers over choices */
+.option-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  transform: skewX(-20deg);
+}
+
+.option-button:hover::after {
+  animation: glintShift 1.2s ease-out infinite;
+}
+
+.option-button.correct {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: var(--accent-green) !important;
+  color: #10b981 !important;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+}
+
+.option-button.wrong {
+  background: rgba(244, 63, 94, 0.15) !important;
+  border-color: var(--accent-pink) !important;
+  color: #f43f5e !important;
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.1);
+}
+
+.option-button.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.option-button.disabled.correct, .option-button.disabled.wrong {
+  opacity: 1;
+}
+
+/* Form Styling */
+.form-input {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
+}
+
+/* Progress bar animation */
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+  transition: width 0.3s ease;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(0, 242, 254, 0.3);
+  }
+}
+
+/* 5. NEW ANIMATION TIMELINES */
+@keyframes moveAmbientBg {
+  0%, 100% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+}
+
+@keyframes borderBeam {
+  100% { left: 200%; }
+}
+
+@keyframes moveGradientText {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes glintShift {
+  100% { left: 200%; }
+}
+
+.glow-active {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
