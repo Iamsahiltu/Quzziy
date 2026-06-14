@@ -1,7 +1,7 @@
-# TODO
-
-- [ ] Fix admin authentication failing with "Invalid admin credentials" even after creating admin.
-  - [ ] Review localStorage admin key usage and verify credentials logic.
-  - [ ] Add migration/reset behavior for mismatched stored admin payloads.
-  - [ ] Improve AdminAuth error messaging to guide user to recreate admin when payload shape is stale.
-- [ ] Run `npm test` / `npm run build` (or equivalent) and verify admin login flow manually.
+- [ ] Read relevant files (AdminView, db) to locate upload/category logic
+- [ ] Add custom-category storage APIs in src/services/db.js (quiz-level)
+- [ ] Add Admin UI for adding custom categories + selecting active import category
+- [ ] Update Bulk Import parser to read optional category from file (and fallback to selected/custom category)
+- [ ] Update upload flow to set quiz.category before importing questions
+- [ ] Fix CSV correct-answer header mapping robustness
+- [ ] Verify app builds + manually test: JSON/CSV import with/without category

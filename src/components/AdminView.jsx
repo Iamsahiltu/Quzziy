@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react';
 import {
-  addCustomQuiz, getQuizzes, addCustomQuestionToQuiz,
-  deleteQuestionFromQuiz, getQuizQuestions, getQuizById,
-  deleteQuiz, updateQuizTime
+  addCustomQuiz,
+  getQuizzes,
+  addCustomQuestionToQuiz,
+  deleteQuestionFromQuiz,
+  getQuizQuestions,
+  getQuizById,
+  deleteQuiz,
+  updateQuizTime,
+  getCustomCategories,
+  addCustomCategory,
+  updateQuizCategory
 } from '../services/db';
+
+
+
+
 
 export default function AdminView({ onGoHome }) {
   const [categories,        setCategories]        = useState([]);
@@ -32,6 +44,28 @@ export default function AdminView({ onGoHome }) {
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [fileQuizId,      setFileQuizId]      = useState('');
 
+  const [customCategories, setCustomCategories] = useState(() => {
+    try { return getCustomCategories(); } catch { return []; }
+  });
+  const [customCategoryDraft, setCustomCategoryDraft] = useState('');
+  const [importCategory, setImportCategory] = useState('');
+
+  const handleAddCustomCategory = () => {
+    try {
+      const name = addCustomCategory(customCategoryDraft);
+      setCustomCategories(prev => [...new Set([...(prev || []), name])]);
+      setImportCategory(name);
+      setCustomCategoryDraft('');
+      setMessage({ type: 'success', text: `Category added: ${name}` });
+    } catch (err) {
+      setMessage({ type: 'error', text: err.message || 'Failed to add category' });
+    }
+  };
+
+
+
+
+
   /* ── Fetch categories ── */
   useEffect(() => {
     fetch('https://opentdb.com/api_category.php')
@@ -46,7 +80,10 @@ export default function AdminView({ onGoHome }) {
       ]));
   }, []);
 
+
+
   /* ── Helpers ── */
+
   const decodeHtml = (s) => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
   const shuffle = (arr) => {
     const a = [...arr];
@@ -187,25 +224,50 @@ export default function AdminView({ onGoHome }) {
     try {
       const text = await file.text();
       let questionsData = [];
+      let fileCategory = '';
       if (file.name.endsWith('.json')) {
         const json = JSON.parse(text);
-        questionsData = Array.isArray(json) ? json : json.questions || [];
+        // Support:
+        // 1) [ { question, options, correctanswer } ]
+        // 2) { category: "...", questions: [ ... ] }
+        if (json && typeof json === 'object' && !Array.isArray(json)) {
+          fileCategory = json.category || json.cat || '';
+          questionsData = Array.isArray(json.questions) ? json.questions : [];
+        } else {
+          questionsData = Array.isArray(json) ? json : [];
+        }
       } else if (file.name.endsWith('.csv')) {
+
         const lines   = text.trim().split('\n');
         const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
         for (let i = 1; i < lines.length; i++) {
           const vals = lines[i].split(',').map(v => v.trim());
           const obj  = {};
           headers.forEach((h, idx) => {
+            if (!h) return;
             if (h.startsWith('option')) { obj.options = [...(obj.options || []), vals[idx]]; }
             else { obj[h] = vals[idx]; }
           });
+          if (obj.category && !fileCategory) fileCategory = obj.category;
           if (obj.question || obj.questiontext) questionsData.push(obj);
+
         }
       } else throw new Error('Unsupported format. Use JSON or CSV.');
 
       const cur = getQuizById(fileQuizId);
       const curCount = cur.questionCount || 0;
+
+      // Apply category to the quiz metadata (quiz-level only)
+      const finalCategory = (fileCategory && fileCategory.trim()) ? fileCategory.trim() : (importCategory && importCategory.trim() ? importCategory.trim() : '');
+      if (finalCategory) {
+        try {
+          updateQuizCategory(fileQuizId, finalCategory);
+        } catch {
+          // Do not fail import if category update fails
+        }
+
+      }
+
       const MAX = 199;
       const toAdd = questionsData.filter(q =>
         (q.question || q.questiontext) && (q.options || q.answers) &&
@@ -227,7 +289,13 @@ export default function AdminView({ onGoHome }) {
           const opts  = q.options || q.answers || [];
           const ci    = parseInt(q.correctanswer || q.correct || 0);
           if (!qText.trim() || opts.length < 2) { fail++; continue; }
+          // quiz-level category only (stored in quiz metadata)
+          if (fileCategory && fileCategory.trim()) {
+            // Best-effort: set quiz category once for the whole import
+            // (called repeatedly is OK for localStorage, but we guard below)
+          }
           addCustomQuestionToQuiz(fileQuizId, qText, opts, ci); ok++;
+
         } catch { fail++; }
       }
       setMessage({ type: 'success', text: `✓ Imported ${ok} questions!${fail > 0 ? ` (${fail} failed)` : ''}` });
@@ -404,11 +472,36 @@ export default function AdminView({ onGoHome }) {
           </div>
 
           <div className="admin-field">
+            <label className="admin-field-label">IMPORT CATEGORY (quiz-level)</label>
+            <select className="form-input" value={importCategory}
+              onChange={e => setImportCategory(e.target.value)}
+              disabled={isUploadingFile || !fileQuizId}
+              title="Used to set quiz.category when importing a file">
+              <option value="">(Use category from file if provided)</option>
+              {customCategories.map(c => <option key={`custom-${c}`} value={c}>Custom: {c}</option>)}
+            </select>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="Add custom category name"
+                value={customCategoryDraft}
+                onChange={e => setCustomCategoryDraft(e.target.value)}
+                disabled={isUploadingFile}
+              />
+              <button type="button" className="btn-primary" onClick={handleAddCustomCategory} disabled={isUploadingFile || !customCategoryDraft.trim()}>
+                Add
+              </button>
+            </div>
+          </div>
+
+          <div className="admin-field">
             <label className="admin-field-label">UPLOAD FILE (JSON or CSV) *</label>
             <input type="file" accept=".json,.csv" className="form-input" onChange={handleFileUpload}
               disabled={isUploadingFile || !fileQuizId}
               style={{ cursor: isUploadingFile || !fileQuizId ? 'not-allowed' : 'pointer' }} />
           </div>
+
 
           <div className="info-box">
             <strong>📋 JSON Format:</strong>

@@ -375,6 +375,46 @@ export function addCustomQuestionToQuiz(quizId, questionText, options, correctAn
   return { success: true, questionId, quiz: quizzes[quizId] };
 }
 
+// Custom category storage (quiz-level category only)
+const CUSTOM_CATEGORIES_KEY = 'quiz_contest_custom_categories';
+
+export function getCustomCategories() {
+  initializeLocalDB();
+  const raw = localStorage.getItem(CUSTOM_CATEGORIES_KEY);
+  const list = raw ? JSON.parse(raw) : [];
+  if (!Array.isArray(list)) return [];
+  // Normalize: unique, non-empty strings
+  return [...new Set(list.map(c => String(c).trim()).filter(Boolean))];
+}
+
+export function addCustomCategory(categoryName) {
+  initializeLocalDB();
+  const name = String(categoryName ?? '').trim();
+  if (!name) throw new Error('Category name is required');
+
+  const existing = getCustomCategories();
+  if (existing.some(c => c.toLowerCase() === name.toLowerCase())) {
+    return existing.find(c => c.toLowerCase() === name.toLowerCase());
+  }
+  const next = [...existing, name];
+  localStorage.setItem(CUSTOM_CATEGORIES_KEY, JSON.stringify(next));
+  return name;
+}
+
+export function updateQuizCategory(quizId, categoryName) {
+  initializeLocalDB();
+  const name = String(categoryName ?? '').trim();
+  if (!name) throw new Error('Category name is required');
+
+  const quizzes = JSON.parse(localStorage.getItem(QUIZZES_KEY) || '{}');
+  if (!quizzes[quizId]) throw new Error('Quiz not found');
+  quizzes[quizId].category = name;
+  quizzes[quizId].updatedAt = Date.now();
+
+  localStorage.setItem(QUIZZES_KEY, JSON.stringify(quizzes));
+  return quizzes[quizId];
+}
+
 // Create a new empty quiz for custom questions
 export function createCustomQuiz(title, description, category = "Custom", difficulty = "medium") {
   initializeLocalDB();
@@ -412,6 +452,7 @@ export function createCustomQuiz(title, description, category = "Custom", diffic
 
   return newQuiz;
 }
+
 
 // Delete a question from a quiz (only allowed if quiz has 199+ questions)
 export function deleteQuestionFromQuiz(quizId, questionId) {
