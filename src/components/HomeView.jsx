@@ -21,9 +21,12 @@ export default function HomeView({ displayName, setDisplayName, onStartQuiz, onV
 
       {/* ── Hero ── */}
       <div className="section-header">
-        <h1 className="page-title--xl">Q.U.Z.Z.I.Y Trivia</h1>
+        <h1 className="page-title--xl">
+          Q.U.Z.Z.I.Y Trivia
+        </h1>
         <p className="page-subtitle">Unleash your intellect in asynchronous quiz warfare.</p>
       </div>
+
 
       {/* ── Pilot card ── */}
       <div className="pilot-panel">
