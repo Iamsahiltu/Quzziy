@@ -1,31 +1,51 @@
-/* ═══════════════════════════════════════════════════════
-   DARK THEME  (default)
-   ═══════════════════════════════════════════════════════ */
-.theme-dark {
-  --color-bg-primary:      #000000;
-  --color-bg-secondary:    #0a0a0a;
-  --color-text-primary:    #ffffff;
-  --color-text-secondary:  #94a3b8;
+/* ── Design Tokens → Tailwind utility classes ────────────────────── */
+@theme {
+  --font-sans:             'Outfit', system-ui, -apple-system, sans-serif;
+
+  /* Base/Dark Crystal theme defaults (Blackish/Greyish) */
+  --color-bg-primary:      #050505;
+  --color-bg-secondary:    #121214;
+  --color-text-primary:    #f7f7f9;
+  --color-text-secondary:  #9ca3af;
   --color-accent-cyan:     #00f2fe;
-  --color-accent-blue:     #4facfe;
+  --color-accent-blue:     #3b82f6;
   --color-accent-pink:     #f43f5e;
   --color-accent-green:    #10b981;
-  --color-card-bg:         rgba(10, 10, 10, 0.82);
-  --color-card-border:     rgba(255, 255, 255, 0.08);
+  --color-card-bg:         rgba(10, 10, 10, 0.75);
+  --color-card-border:     rgba(255, 255, 255, 0.09);
+  --color-btn-text:        #040814;
 }
 
 /* ═══════════════════════════════════════════════════════
-   LIGHT THEME
+   DARK CRYSTAL THEME  (Dark mode - default)
+   ═══════════════════════════════════════════════════════ */
+.theme-dark {
+  --color-bg-primary:      #050505;
+  --color-bg-secondary:    #121214;
+  --color-text-primary:    #f7f7f9;
+  --color-text-secondary:  #9ca3af;
+  --color-accent-cyan:     #00f2fe;
+  --color-accent-blue:     #3b82f6;
+  --color-accent-pink:     #f43f5e;
+  --color-accent-green:    #10b981;
+  --color-card-bg:         rgba(10, 10, 10, 0.75);
+  --color-card-border:     rgba(255, 255, 255, 0.09);
+  --color-btn-text:        #040814;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIGHT CRYSTAL THEME  (Light mode)
    ═══════════════════════════════════════════════════════ */
 .theme-light {
-  --color-bg-primary:      #f0f4ff;
-  --color-bg-secondary:    #e2e8f8;
-  --color-text-primary:    #0f172a;
-  --color-text-secondary:  #475569;
+  --color-bg-primary:      #f8f7fc;
+  --color-bg-secondary:    #ebdff5;
+  --color-text-primary:    #1e152d;
+  --color-text-secondary:  #6d5f85;
   --color-accent-cyan:     #0284c7;
-  --color-accent-blue:     #2563eb;
+  --color-accent-blue:     #8b5cf6;
   --color-accent-pink:     #db2777;
   --color-accent-green:    #059669;
-  --color-card-bg:         rgba(255, 255, 255, 0.88);
-  --color-card-border:     rgba(15, 23, 42, 0.10);
+  --color-card-bg:         rgba(255, 255, 255, 0.72);
+  --color-card-border:     rgba(139, 92, 246, 0.15);
+  --color-btn-text:        #ffffff;
 }

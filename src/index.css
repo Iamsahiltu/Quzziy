@@ -4,28 +4,47 @@
 /* ── Tailwind v4 ─────────────────────────────────────────────────── */
 @import "tailwindcss";
 
+@utility glass-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--color-card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent,
+      color-mix(in srgb, var(--color-accent-cyan) 8%, transparent), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    animation: borderBeam 1.5s ease-in-out infinite;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-accent-cyan) 40%, transparent);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3),
+                0 0 20px color-mix(in srgb, var(--color-accent-cyan) 15%, transparent);
+  }
+}
+
 /* ── Theme Variables (dark / light overrides) ────────────────────── */
 @import "./styles/themes.css";
 
 /* ── Component Classes (all @apply rules) ────────────────────────── */
 @import "./styles/components.css";
 
-/* ── Design Tokens → Tailwind utility classes ────────────────────── */
-@theme {
-  --font-sans:             'Outfit', system-ui, -apple-system, sans-serif;
 
-  /* Dark defaults (overridden by .theme-light / .theme-dark) */
-  --color-bg-primary:      #000000;
-  --color-bg-secondary:    #0a0a0a;
-  --color-text-primary:    #ffffff;
-  --color-text-secondary:  #94a3b8;
-  --color-accent-cyan:     #00f2fe;
-  --color-accent-blue:     #4facfe;
-  --color-accent-pink:     #f43f5e;
-  --color-accent-green:    #10b981;
-  --color-card-bg:         rgba(10, 10, 10, 0.82);
-  --color-card-border:     rgba(255, 255, 255, 0.08);
-}
 
 /* ── Base Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
@@ -80,35 +99,7 @@ body {
 /* ── Base Component Styles (need CSS vars, not @apply) ───────────── */
 @layer components {
 
-  /* Glass Panel */
-  .glass-panel {
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-    background: var(--color-card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--color-card-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .glass-panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent,
-      color-mix(in srgb, var(--color-accent-cyan) 8%, transparent), transparent);
-    transform: skewX(-25deg);
-    pointer-events: none;
-  }
-  .glass-panel:hover::before { animation: borderBeam 1.5s ease-in-out infinite; }
-  .glass-panel:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--color-accent-cyan) 40%, transparent);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3),
-                0 0 20px color-mix(in srgb, var(--color-accent-cyan) 15%, transparent);
-  }
+
 
   /* Gradient text */
   .gradient-text {
@@ -140,7 +131,7 @@ body {
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
-    color: #040814;
+    color: var(--color-btn-text);
     cursor: pointer;
     background: linear-gradient(135deg, var(--color-accent-cyan) 0%, var(--color-accent-blue) 100%);
     box-shadow: 0 4px 15px color-mix(in srgb, var(--color-accent-cyan) 25%, transparent);
@@ -156,20 +147,27 @@ body {
     align-items: center;
     justify-content: center;
     padding: 12px 28px;
-    border-radius: 12px;
+    border-radius: 14px;
     font-family: var(--font-sans);
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: var(--color-text-primary);
-    background: transparent;
-    border: 1px solid var(--color-card-border);
+    background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--color-text-primary) 18%, transparent);
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .btn-secondary:hover {
-    transform: translateY(-1px);
-    background: color-mix(in srgb, var(--color-text-primary) 6%, transparent);
-    border-color: color-mix(in srgb, var(--color-text-primary) 28%, transparent);
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+    border-color: color-mix(in srgb, var(--color-text-primary) 40%, transparent);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15),
+                0 0 12px color-mix(in srgb, var(--color-accent-cyan) 12%, transparent);
   }
 
   /* Theme toggle */
@@ -196,7 +194,7 @@ body {
     transition: background 0.3s ease;
   }
   .theme-dark  .theme-toggle-track { background: linear-gradient(90deg, var(--color-accent-cyan), var(--color-accent-blue)); }
-  .theme-light .theme-toggle-track { background: linear-gradient(90deg, #f59e0b, #f97316); }
+  .theme-light .theme-toggle-track { background: linear-gradient(90deg, var(--color-accent-cyan), var(--color-accent-blue)); }
   .theme-toggle-thumb {
     position: absolute; top: 2px;
     width: 16px; height: 16px; border-radius: 50%; background: #fff;
@@ -206,36 +204,7 @@ body {
   .theme-dark  .theme-toggle-thumb { left: 18px; }
   .theme-light .theme-toggle-thumb { left: 2px;  }
 
-  /* Option button */
-  .option-button {
-    position: relative; overflow: hidden;
-    width: 100%; text-align: left;
-    padding: 16px 24px; margin-bottom: 12px;
-    border-radius: 14px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: color-mix(in srgb, var(--color-text-primary) 4%, transparent);
-    border: 1px solid var(--color-card-border);
-    color: var(--color-text-primary);
-    font-size: 1.05rem; font-family: var(--font-sans);
-    cursor: pointer; transition: all 0.2s ease;
-  }
-  .option-button:hover {
-    padding-left: 28px;
-    background: color-mix(in srgb, var(--color-accent-cyan) 8%, transparent);
-    border-color: color-mix(in srgb, var(--color-accent-cyan) 35%, transparent);
-  }
-  .option-button::after {
-    content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent,
-      color-mix(in srgb, var(--color-text-primary) 6%, transparent), transparent);
-    transform: skewX(-20deg); pointer-events: none;
-  }
-  .option-button:hover::after { animation: glintShift 1.2s ease-out infinite; }
-  .option-button.correct { background: rgba(16,185,129,0.15) !important; border-color: var(--color-accent-green) !important; color: var(--color-accent-green) !important; box-shadow: 0 0 15px rgba(16,185,129,0.12); }
-  .option-button.wrong   { background: rgba(244,63,94,0.15)  !important; border-color: var(--color-accent-pink)  !important; color: var(--color-accent-pink)  !important; box-shadow: 0 0 15px rgba(244,63,94,0.12); }
-  .option-button.disabled { pointer-events: none; opacity: 0.55; }
-  .option-button.disabled.correct,
-  .option-button.disabled.wrong   { opacity: 1; }
+
 
   /* Form input */
   .form-input {

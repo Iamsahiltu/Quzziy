@@ -39,13 +39,7 @@
 .home-page           { @apply max-w-[650px] mx-auto px-5 pb-16; }
 
 .pilot-panel         {
-  @apply p-6 mb-8;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-6 mb-8 glass-panel;
 }
 .pilot-edit-form     { @apply flex gap-3 flex-col; }
 .pilot-edit-label    { @apply text-[0.95rem] text-text-secondary font-medium text-left; }
@@ -59,13 +53,7 @@
 
 .quiz-grid           { @apply flex flex-col gap-4; }
 .quiz-card           {
-  @apply p-6 flex flex-col gap-3;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-6 flex flex-col gap-3 glass-panel;
 }
 .quiz-card-header    { @apply flex justify-between items-start; }
 .quiz-card-title     { @apply m-0 text-[1.25rem] font-semibold text-text-primary; }
@@ -90,6 +78,37 @@
 .quiz-launch-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 22px color-mix(in srgb, var(--color-accent-cyan) 42%, transparent); }
 .quiz-launch-btn:active { transform: translateY(0); }
 .quiz-launch-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.option-button {
+  position: relative; overflow: hidden;
+  width: 100%; text-align: left;
+  padding: 16px 24px; margin-bottom: 12px;
+  border-radius: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text-primary);
+  font-size: 1.05rem; font-family: var(--font-sans);
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.option-button:hover {
+  padding-left: 28px;
+  background: color-mix(in srgb, var(--color-accent-cyan) 8%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent-cyan) 35%, transparent);
+}
+.option-button::after {
+  content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent,
+    color-mix(in srgb, var(--color-text-primary) 6%, transparent), transparent);
+  transform: skewX(-20deg); pointer-events: none;
+}
+.option-button:hover::after { animation: glintShift 1.2s ease-out infinite; }
+.option-button.correct { background: rgba(16,185,129,0.15) !important; border-color: var(--color-accent-green) !important; color: var(--color-accent-green) !important; box-shadow: 0 0 15px rgba(16,185,129,0.12); }
+.option-button.wrong   { background: rgba(244,63,94,0.15)  !important; border-color: var(--color-accent-pink)  !important; color: var(--color-accent-pink)  !important; box-shadow: 0 0 15px rgba(244,63,94,0.12); }
+.option-button.disabled { pointer-events: none; opacity: 0.55; }
+.option-button.disabled.correct,
+.option-button.disabled.wrong   { opacity: 1; }
 .quiz-delete-btn     {
   min-width: 140px;
   display: inline-flex; align-items: center; justify-content: center;
@@ -137,13 +156,7 @@
 .quiz-timer--free    { @apply text-[0.9rem] text-text-secondary; }
 
 .question-panel      {
-  @apply p-8 text-left mb-6;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-8 text-left mb-6 glass-panel;
 }
 .question-text       { @apply text-[1.4rem] leading-relaxed font-medium m-0 mb-6 text-text-primary; }
 .options-list        { @apply flex flex-col; }
@@ -192,13 +205,7 @@
 .result-subtitle     { @apply text-text-secondary text-[1.05rem] m-0 leading-relaxed; }
 
 .result-panel        {
-  @apply p-8 mb-8 flex flex-col gap-5;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-8 mb-8 flex flex-col gap-5 glass-panel;
 }
 .result-panel-title  {
   @apply m-0 text-[1.3rem] pb-3 text-left text-text-primary;
@@ -215,13 +222,7 @@
 
 .lb-page             { @apply max-w-[600px] mx-auto px-5 pb-16; }
 .lb-panel            {
-  @apply p-5 mb-8 overflow-x-auto;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-5 mb-8 overflow-x-auto glass-panel;
 }
 .lb-empty            { @apply p-5 text-text-secondary; }
 .lb-table            { @apply w-full border-collapse text-left; }
@@ -242,13 +243,7 @@
 .auth-page           { @apply max-w-[900px] mx-auto my-6 px-5; }
 .auth-grid           { @apply grid grid-cols-1 md:grid-cols-2 gap-5; }
 .auth-panel          {
-  @apply p-5;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-5 glass-panel;
 }
 .auth-panel-title    { @apply mt-0 text-text-primary; }
 .auth-form           { @apply flex flex-col gap-3; }
@@ -261,23 +256,11 @@
 
 .admin-page          { @apply max-w-[650px] mx-auto px-5 pt-10 pb-16; }
 .admin-panel         {
-  @apply p-7 mb-8 text-left;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-7 mb-8 text-left glass-panel;
 }
 .admin-panel--tall   {
-  @apply p-9 mb-8 text-left;
+  @apply p-9 mb-8 text-left glass-panel;
   min-height: 320px;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 .admin-panel-title   { @apply m-0 mb-5 text-[1.3rem] text-text-primary; }
 .admin-panel-header  { @apply flex justify-between items-center mb-5; }
@@ -314,13 +297,7 @@
 .db-section          { @apply text-left mb-10; }
 .db-section-title    { @apply text-[1.25rem] mb-4 text-text-primary; }
 .db-list             {
-  @apply p-0;
-  position: relative; overflow: hidden; border-radius: 20px;
-  background: var(--color-card-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  @apply p-0 glass-panel;
 }
 .db-item-header      { @apply flex justify-between items-center p-3 cursor-pointer; }
 .db-item-info        { @apply flex-1; }
